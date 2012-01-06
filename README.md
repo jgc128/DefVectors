@@ -6,7 +6,7 @@ Extracting semantic relations from Wikipedia with the help of the nearest-neighb
 Build
 -----
 
-To build under Windows, use Visual Studio 2010 project in msvs folder. To build under *nix use make.
+To build under Windows, use Visual Studio 2010 project in msvs folder. To build under *nix use makefile.
 
 Using
 -----
