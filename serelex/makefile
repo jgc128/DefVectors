@@ -1,9 +1,9 @@
 CC = g++
 
-kr2011: main.o word.o definition.o interpret.o similarity.o karaulov.o component_analysis.o
-	$(CC) -O2 -o kr2011 main.o word.o definition.o interpret.o similarity.o karaulov.o component_analysis.o
-#kr2011: main.o
-#	$(CC) -o kr2011 main.o
+serelex: main.o word.o definition.o interpret.o similarity.o karaulov.o component_analysis.o
+	$(CC) -O2 -o serelex main.o word.o definition.o interpret.o similarity.o karaulov.o component_analysis.o
+#serelex: main.o
+#	$(CC) -o serelex main.o
 
 main.o: main.cpp shareHeaders.h nmax.h
 word.o: word.cpp word.h 
