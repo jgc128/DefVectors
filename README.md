@@ -1,7 +1,9 @@
 Serelex
 =======
 
-Extracting semantic relations from Wikipedia with the help of the nearest-neighbor algorithm
+Extracting semantic relations with the help of the nearest-neighbor algorithm.
+
+Licensed under [GPLv3](http://www.gnu.org/licenses/gpl.html).
 
 Build
 -----
@@ -24,3 +26,4 @@ Using
 			1 - KNN
 			2 - mKNN
 	K, T1, T2, T3 - factors, default K = 2, T1 = 2, T1 = 1, T3 = 6
+	
