@@ -9,13 +9,15 @@ class nmax
 {
 private:
 	int max;
-	int (* compare)(const Type &b, const Type &a);
 	typename std::vector < Type > :: iterator minEl;
+	int (* compare)(const Type &b, const Type &a);
+
+	void find_min();
 
 public:
 	std::vector < Type > elements;
 
-	nmax(int maxElements, int (* ptFuncCompare)(const Type &b, const Type &a) );
+	nmax(int maxElements , int (* ptFuncCompare)(const Type &b, const Type &a) );
 	~nmax();
 
 	void add(Type el);
@@ -24,7 +26,7 @@ public:
 
 
 template < class Type >
-nmax < Type > :: nmax( int maxElements, int (* ptFuncCompare)(const Type &b, const Type &a) )
+nmax < Type > :: nmax( int maxElements , int (* ptFuncCompare)(const Type &b, const Type &a) )
 {
 	max = maxElements;
 	compare = ptFuncCompare;
@@ -40,6 +42,24 @@ nmax < Type > :: ~nmax()
 }
 
 template < class Type > 
+void nmax < Type > :: find_min()
+{
+	typename std::vector < Type > :: iterator it;
+
+	minEl = elements.begin();
+
+	int res;
+
+	for( it = elements.begin(); it != elements.end(); ++ it )
+	{
+		res = compare( *it, *minEl );
+		if( res < 0 )
+			minEl = it;
+	}
+
+}
+
+template < class Type > 
 void nmax < Type > :: add(Type el)
 {
 	int curSize = elements.size();
@@ -48,17 +68,20 @@ void nmax < Type > :: add(Type el)
 	{
 		elements.push_back(el);
 
-		minEl = min_element( elements.begin(), elements.end() );
+		//minEl = min_element( elements.begin(), elements.end() );
+
+		find_min();
 	}
 	else
 	{
 		//if( el > *minEl )
-		if( compare( el, *minEl ) > 0 )
+		int res = compare( el, *minEl );
+		if( res > 0 )
 		{
 			*minEl = el;
 
-			minEl = min_element( elements.begin(), elements.end() );
-
+			//minEl = min_element( elements.begin(), elements.end()  );
+			find_min();
 
 		}
 

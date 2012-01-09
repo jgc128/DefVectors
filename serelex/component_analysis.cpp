@@ -21,13 +21,14 @@
 
 extern GlobalArgs globalArgs;
 
-std::vector < nmax < pair < unsigned long long, double > > > ComponentAnalysis::NewKNN = std::vector < nmax < pair < unsigned long long, double > > > ();
+std::vector < nmax < pair < unsigned long long, unsigned long > > > ComponentAnalysis::NewKNN = std::vector < nmax < pair < unsigned long long, unsigned long > > > ();
 
 pComponentAnalysisMethod ComponentAnalysis::RunComponentAnalysis = NULL;
 
-int ComponentAnalysis::compare(const pair < unsigned long long, double > &a, const pair < unsigned long long, double > &b)
+
+int ComponentAnalysis::compare(const pair < unsigned long long, unsigned long > &a, const pair < unsigned long long, unsigned long > &b)
 {
-	double res = a.second - b.second;
+	long res = a.second - b.second;
 	int ret = res < 0 ? -1 : (res > 0 ? 1 : 0);
 
 	return ret;
@@ -37,8 +38,11 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 {
 	unsigned long long i,j,numC;
 	double sim;
+	unsigned long simL;
 
 	numC = D.size();
+
+	std::vector < pair < unsigned long long, unsigned long > > :: iterator it;
 
 #ifdef	PRINT_PARSE_INFO
 	unsigned long long total = ( (numC + 1) / 2 ) * numC;
@@ -50,7 +54,7 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 
 	NewKNN.reserve( numC );
 	for (i = 0; i < numC; ++ i)
-		NewKNN.push_back( nmax < pair < unsigned long long, double > > ( globalArgs.K, ComponentAnalysis::compare ) );
+		NewKNN.push_back( nmax < pair < unsigned long long, unsigned long > > ( globalArgs.K , ComponentAnalysis::compare ) );
 
 	for (i = 0; i < numC; ++ i)
 	{
@@ -63,10 +67,14 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 			else
 			{
 				sim =  Definition::similar( *D[i] , *D[j] );
-				if (sim != 0)
+				simL = sim * 10000000;
+				if (simL != 0)
 				{
-					NewKNN[i].add( make_pair< unsigned long long, double > (j, sim) );
-					NewKNN[j].add( make_pair< unsigned long long, double > (i, sim) );
+					NewKNN[i].add( make_pair< unsigned long long, unsigned long > (j, simL) );
+					NewKNN[j].add( make_pair< unsigned long long, unsigned long > (i, simL) );
+
+					if( strcmp(D[i]->name,"pine") == 0)
+						int a = 0;
 				}
 			}
 
@@ -92,8 +100,19 @@ list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisKNN(std::v
 {
 	int i,j,mi,mj;
 
-	mi = NewKNN.size();
-	for( i = 0; i < mi; ++i )
+	//mi = NewKNN.size();
+	//for( i = 0; i < mi; ++i )
+	//{
+	//	mj = NewKNN[i].elements.size();
+	//	for( j = 0; j < mj; ++j )
+	//	{
+	//		R.push_back( make_pair( D[ i ]->name, D[ NewKNN[i].elements[j].first ]->name ) );
+	//	}
+	//}
+
+	mi = D.size();
+
+	for( i = 0; i < mi; ++ i )
 	{
 		mj = NewKNN[i].elements.size();
 		for( j = 0; j < mj; ++j )
@@ -109,17 +128,22 @@ list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisKNN(std::v
 list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisMutualKNN(std::vector<Definition*> &D, list < pair < char*, char* > > &R)
 {
 	int word_i,word_j,mi,mj;
-	std::vector < pair < unsigned long long, double > > :: iterator result;
+	std::vector < pair < unsigned long long, unsigned long > > :: iterator result;
 
-	mi = NewKNN.size();
-	for( word_i = 0; word_i < mi; ++word_i )
+	mi = D.size();
+
+	for( word_i = 0; word_i < mi; ++ word_i )
 	{
 		mj = NewKNN[word_i].elements.size();
-		for( word_j = 0; word_j < mj; ++word_j )
+		for( word_j = 0; word_j < mj; ++ word_j )
 		{
-			result = find_if( NewKNN[word_j].elements.begin(), NewKNN[word_j].elements.end(), bind2nd( p_fi_equal(), word_i) );
 
-			if( result != ComponentAnalysis::NewKNN[word_j].elements.end() )
+			result = find_if( 
+				NewKNN[ NewKNN[word_i].elements[word_j].first ].elements.begin(), 
+				NewKNN[ NewKNN[word_i].elements[word_j].first ].elements.end(), 
+				bind2nd( p_fi_equal(), word_i ) );
+
+			if( result != NewKNN[ NewKNN[word_i].elements[word_j].first ].elements.end() )
 				R.push_back( make_pair( D[ word_i ]->name, D[ NewKNN[word_i].elements[word_j].first ]->name ) );
 		}
 	}

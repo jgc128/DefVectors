@@ -22,10 +22,11 @@ public binary_function<const char*, const char*, bool>
 	}
 };
 struct p_fi_equal : 
-public binary_function< pair < unsigned long long, double >, unsigned long long, bool> {
-	bool operator() (const pair < unsigned long long, double > &a, const unsigned long long &b) const
+public binary_function< pair < unsigned long long, unsigned long >, unsigned long long, bool> {
+	bool operator() (const pair < unsigned long long, unsigned long > &a, const unsigned long long &b) const
 	{
-		return ( a.first == b );
+		bool res = a.first == b;
+		return ( res );
 	}
 };
 
@@ -33,11 +34,11 @@ struct ComponentAnalysis
 {
 private:
 
-	static int compare(const pair < unsigned long long, double > &a, const pair < unsigned long long, double > &b);
-
-	static std::vector < nmax < pair < unsigned long long, double > > > NewKNN;
+	static std::vector < nmax < pair < unsigned long long, unsigned long > > > NewKNN;
 
 public:
+	static int compare(const pair < unsigned long long, unsigned long > &a, const pair < unsigned long long, unsigned long > &b);
+
 	static void PrepareComponentAnalysis( std::vector<Definition*> &D );
 
 	static list < pair < char*, char* > > NewComponentAnalysisKNN(std::vector<Definition*> &D, std::list < pair < char*, char* > > &R);

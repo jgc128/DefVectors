@@ -1,0 +1,8 @@
+msvs/ipch
+msvs/Debug
+msvs/Release
+*.dll
+*.exe
+*.sdf
+*.opensdf
+Thumbs.db

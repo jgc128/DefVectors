@@ -56,12 +56,15 @@ unsigned long long getWordId(pair <char *, int> p)
 
 vector<Definition*>* readData(char* wordFileName, char* definitionFileName, char* stopWordsFileName)
 {
+	printMessage("Loading stop words...\n");
 	list<char *>* stopWords = readFileWords(stopWordsFileName);
-	printMessage("Stow word loaded from file %s\n", stopWordsFileName);
+	printMessage("Stop word loaded from file %s\n", stopWordsFileName);
 
+	printMessage("Loading concepts...\n");
 	list<char *>* concepts = readFileWords(wordFileName);
 	printMessage("Concepts loaded from file %s\n", wordFileName);
 
+	printMessage("Loading definitions...\n");
 	vector<Definition*>* definitions = readFileDefinitions(definitionFileName, stopWords, concepts);    
 	printMessage("Definitions loaded from file %s\n", definitionFileName);
 

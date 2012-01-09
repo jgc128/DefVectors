@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 	if (!checkFiles())
 		return -1;
 	
-	printMessage("Started\n");
+	printMessage("Started...\n");
 
 	//Инициализация
 	init_POS();
@@ -81,24 +81,26 @@ int main(int argc, char* argv[])
 
 	list < pair < char*,char* > > result;
 	
+	printMessage("Calculated similarity... "); 
+	
+	ComponentAnalysis::PrepareComponentAnalysis( *definitions );
+	ComponentAnalysis::RunComponentAnalysis(*definitions,result);
+
 	if (Definition::similar == Karaulov)
 	{
-		printMessage("Similarity calculated with Karaulov method (T1: %d, T2: %d, T3: %d) ", globalArgs.T1, globalArgs.T2, globalArgs.T3);
+		printMessage("Similarity calculated with Karaulov method (T1: %d, T2: %d, T3: %d) \n", globalArgs.T1, globalArgs.T2, globalArgs.T3);
 	}
 	else
 	{
-		printMessage("Similarity calculated with %s method ", 
+		printMessage("Similarity calculated with %s method \n", 
 			Definition::similar == Overlap ? "Overlap" :  "Cosinus"
 		);
 	}
-
-	ComponentAnalysis::PrepareComponentAnalysis( *definitions );
-	ComponentAnalysis::RunComponentAnalysis(*definitions,result);
 	
 	writeResults(&result, globalArgs.outputFile);
 	
-	printMessage("Completed! Writed file %s\n", globalArgs.outputFile);
-	
+	printMessage("Completed! Writed result to file %s\n", globalArgs.outputFile);
+
 	return 0;
 }
 
