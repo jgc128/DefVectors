@@ -44,7 +44,7 @@ nmax < Type > :: ~nmax()
 template < class Type > 
 void nmax < Type > :: find_min()
 {
-	typename std::vector < Type > :: iterator it;
+	typename  std::vector < Type > :: iterator it;
 
 	minEl = elements.begin();
 
