@@ -72,7 +72,6 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 				{
 					NewKNN[i].add( make_pair< unsigned long long, unsigned long > (j, simL) );
 					NewKNN[j].add( make_pair< unsigned long long, unsigned long > (i, simL) );
-
 				}
 			}
 
