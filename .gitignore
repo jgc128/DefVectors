@@ -1,6 +1,7 @@
 msvs/ipch
 msvs/Debug
 msvs/Release
+msvs/x64
 *.dll
 *.sdf
 *.opensdf

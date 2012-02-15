@@ -62,7 +62,7 @@ void nmax < Type > :: find_min()
 template < class Type > 
 void nmax < Type > :: add(Type el)
 {
-	int curSize = elements.size();
+	size_t curSize = elements.size();
 
 	if( curSize < max )
 	{

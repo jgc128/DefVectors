@@ -6,13 +6,25 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release 64|Win32 = Release 64|Win32
+		Release 64|x64 = Release 64|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Debug|Win32.ActiveCfg = Debug|Win32
 		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Debug|Win32.Build.0 = Debug|Win32
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Debug|x64.ActiveCfg = Debug|x64
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Debug|x64.Build.0 = Debug|x64
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release 64|Win32.ActiveCfg = Release 64|Win32
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release 64|Win32.Build.0 = Release 64|Win32
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release 64|x64.ActiveCfg = Release 64|x64
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release 64|x64.Build.0 = Release 64|x64
 		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release|Win32.ActiveCfg = Release|Win32
 		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release|Win32.Build.0 = Release|Win32
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release|x64.ActiveCfg = Release|x64
+		{FABE692C-C76F-49FB-8A39-DE508D6222E7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
