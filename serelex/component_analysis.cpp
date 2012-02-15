@@ -95,7 +95,8 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 
 list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisKNN(std::vector<Definition*> &D, list < pair < char*, char* > > &R)
 {
-	int i,j,mi,mj;
+	int i,j;
+	size_t mi, mj;
 
 	//mi = NewKNN.size();
 	//for( i = 0; i < mi; ++i )
@@ -124,9 +125,10 @@ list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisKNN(std::v
 
 list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisMutualKNN(std::vector<Definition*> &D, list < pair < char*, char* > > &R)
 {
-	int word_i,word_j,mi,mj;
+	int word_i,word_j;
 	std::vector < pair < unsigned long long, unsigned long > > :: iterator result;
 
+	size_t mi, mj;
 	mi = D.size();
 
 	for( word_i = 0; word_i < mi; ++ word_i )
