@@ -3,7 +3,7 @@ Serelex
 
 Extracting semantic relations with the help of the nearest-neighbor algorithm.
 
-Licensed under [GPLv3](http://www.gnu.org/licenses/gpl.html).
+Licensed under [LGPLv3](http://www.gnu.org/licenses/lgpl.html).
 
 Build
 -----
