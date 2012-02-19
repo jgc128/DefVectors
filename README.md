@@ -1,9 +1,32 @@
 Serelex
 =======
 
-Extracting semantic relations with the help of the nearest-neighbor algorithm.
+A tool for semantic relation extraction. The program finds pairs of semantically related words based on the text definitions coming from the Wikipedia articles (other texts may be also used). The extraction method implemented in this system is based on three similarity measures (cosine, gloss overlap, and Karaulov's measure) between texts and two nearest-neighbor algorithms (KNN and Mutual KNN). The tool is a cross-platform console application.
 
 Licensed under [LGPLv3](http://www.gnu.org/licenses/lgpl.html).
+
+Files and Catalogs
+--------
+*bin* - contains binary excutable file:
+* serelex_win32.exe - excutable file for 32-bit Windows
+* serelex_win64.exe - excutable file for 64-bit Windows
+* serelex_i686 - executable file for i686 Debian-based systems
+* serelex_amd64 - executable file for amd64 Debian-based systems
+
+*docs* - provides documentation in html format
+
+*sample-data* - contains sample source data:
+* concepts.csv - a text file containing a set of input words (one word per line)
+* definitions.csv - a text file containing a set of definitions for words specified in the concepts.csv file
+* stoplist.csv - a text file containing stop words (one word per line)
+
+*src* - the source code
+
+*windows* - provides project to Microsoft VIsual Studio 2010
+
+*test.sh* - 
+
+*test.bat* - 
 
 Build
 -----
