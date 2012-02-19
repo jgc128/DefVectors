@@ -8,11 +8,11 @@
 #include <set>
 #include <map>
 
-
+/// Represents of the word
 struct Word
 {	
-	//char* lemma;
 	char* word;
+	/// Part of speech
 	int pos;
 
 	Word(char*, int);
@@ -67,7 +67,7 @@ public std::binary_function<const char*, const char*, bool>
 //void init_truePOS();
 //bool isTruePOS(char*);
 
-void init_POS();//Инициализация словаря всех частей речи
+void init_POS();//�?нициализация словаря всех частей речи
 bool isPOS(char*);
 int POS_add(char*);
 

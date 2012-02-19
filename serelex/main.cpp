@@ -26,6 +26,13 @@
 
 #include "nmax.h"
 
+/**
+@mainpage Main
+Serelex - program complex for extracting semantic relations with the help of the nearest-neighbor algorithm.
+
+Licensed under LGPLv3.
+*/
+
 map<char*, int, POSCompare> POS_map;//Соответствие НазваниеPOS - Индекс
 //set<int> truePOS;//Множество индексов POS, которые учитываются в анализе
 set<unsigned long long> karaulov_set;

@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 
+/// Represents storage, witch store n maximum elements
 template < class Type >
 class nmax
 {
@@ -15,11 +16,21 @@ private:
 	void find_min();
 
 public:
+/// Vector with n maximum elements
 	std::vector < Type > elements;
 
+/**
+ * Constructor
+ * @param maxElements Number of the maximum elements
+ * @param ptFuncCompare Pointer to compare func
+ */	
 	nmax(int maxElements , int (* ptFuncCompare)(const Type &b, const Type &a) );
 	~nmax();
 
+/**
+ * Add elemt on storage
+ * @param el Element to add
+ */
 	void add(Type el);
 
 };
