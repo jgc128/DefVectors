@@ -18,7 +18,8 @@ Licensed under [LGPLv3](http://www.gnu.org/licenses/lgpl.html).
 Options
 -------
 **-c** *file*
-Concepts file, default concepts.csv. A text file containing a set of input words (one word per line). The program will try to find semantic relations between these input words. For instance, if words “crocodile, alligator, house, and building” were given as input the program will try to return pairs “crocodile,alligator” and “house,building” among all possible combinations. 
+
+Concepts file, default concepts.csv. A text file containing a set of input words (one word per line). The program will try to find semantic relations between these input words. For instance, if words 'crocodile, alligator, house, and building' were given as input the program will try to return pairs 'crocodile,alligator' and “house,building” among all possible combinations. 
 **-d** *file*
 Definitions file, default definitions.csv. A text file containing a set of definitions for words specified in the concepts.csv file. If this file contains definitions for more words that given in concepts.csv the program will skip the words which do not appear in the concepts.csv. The sample-data directory contains files with "definitions" derived from the introduction of Wikipedia articles. Other texts may be used as definitions (traditional dictionary glosses, WordNet, etc.) if provided in the same format.  
 **-s** *file*
@@ -27,9 +28,9 @@ Stop-words file, default stoplist.csv. A text file containing stop words (one wo
 Output file, default result.csv. A text file containing set of found semantic relations between words specified in the file concepts.csv. Each line of this file contains a pair of semantically related words, according to the specified method. 
 **-S** *o|c|k*
 Similarity method, default o. Semantic similarity measure used for relation extraction. 
- o – Gloss overlap measure equal to number of common words in the definitions of two words.
- c – Cosine between bag-of-word vectors build from definitions of respective of two words
- k – Karaulov's semantic similarity measure. 
+ o - Gloss overlap measure equal to number of common words in the definitions of two words.
+ c - Cosine between bag-of-word vectors build from definitions of respective of two words
+ k - Karaulov's semantic similarity measure. 
 **-M** *1|2*
 Component analysis method, default knn. An algorithm used to derive semantic relations from pairwise similarity scores between the words. 
  1 - knn. Standard nearest-neighbor algorithm (KNN). Here K most similar words are related to a target word. 
@@ -37,11 +38,12 @@ Component analysis method, default knn. An algorithm used to derive semantic rel
 **-K** *NUM*
 Number of nearest-neighbors, default K = 2. 
 **-T** *T1 T2 T3*
-T1, T2, T3 – parameters of Karaulov's semantic similarity measure, default T1 = 2, T1 = 1, T3 = 6."
+T1, T2, T3 - parameters of Karaulov's semantic similarity measure, default T1 = 2, T1 = 1, T3 = 6.
 
 Files and Catalogs
 ------------------
 *bin* - contains binary excutable file:
+
  * serelex_win32.exe - excutable file for 32-bit Windows
  * serelex_win64.exe - excutable file for 64-bit Windows
  * serelex_i686 - executable file for i686 Debian-based systems
@@ -50,6 +52,7 @@ Files and Catalogs
 *docs* - provides documentation in html format
 
 *sample-data* - contains sample source data:
+
  * concepts.csv - a text file containing a set of input words (one word per line)
  * definitions.csv - a text file containing a set of definitions for words specified in the concepts.csv file
  * stoplist.csv - a text file containing stop words (one word per line)
