@@ -27,22 +27,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\serelex\component_analysis.cpp" />
-    <ClCompile Include="..\serelex\definition.cpp" />
-    <ClCompile Include="..\serelex\interpret.cpp" />
-    <ClCompile Include="..\serelex\karaulov.cpp" />
-    <ClCompile Include="..\serelex\main.cpp" />
-    <ClCompile Include="..\serelex\similarity.cpp" />
-    <ClCompile Include="..\serelex\word.cpp" />
+    <ClCompile Include="..\src\component_analysis.cpp" />
+    <ClCompile Include="..\src\definition.cpp" />
+    <ClCompile Include="..\src\interpret.cpp" />
+    <ClCompile Include="..\src\karaulov.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\similarity.cpp" />
+    <ClCompile Include="..\src\word.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\serelex\component_analysis.h" />
-    <ClInclude Include="..\serelex\definition.h" />
-    <ClInclude Include="..\serelex\getopt.h" />
-    <ClInclude Include="..\serelex\nmax.h" />
-    <ClInclude Include="..\serelex\shareHeaders.h" />
-    <ClInclude Include="..\serelex\similarity.h" />
-    <ClInclude Include="..\serelex\word.h" />
+    <ClInclude Include="..\src\component_analysis.h" />
+    <ClInclude Include="..\src\definition.h" />
+    <ClInclude Include="..\src\getopt.h" />
+    <ClInclude Include="..\src\nmax.h" />
+    <ClInclude Include="..\src\shareHeaders.h" />
+    <ClInclude Include="..\src\similarity.h" />
+    <ClInclude Include="..\src\word.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FABE692C-C76F-49FB-8A39-DE508D6222E7}</ProjectGuid>

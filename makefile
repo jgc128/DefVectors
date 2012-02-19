@@ -1,7 +1,11 @@
-CC = g++
+ifndef ARCH
+ARCH = m32
+endif
 
-serelex: main.o word.o definition.o interpret.o similarity.o karaulov.o component_analysis.o
-	$(CC) -O2 -o serelex main.o word.o definition.o interpret.o similarity.o karaulov.o component_analysis.o
+CC = g++ -$(ARCH)
+
+serelex: ./src/main.o ./src/word.o ./src/definition.o ./src/interpret.o ./src/similarity.o ./src/karaulov.o ./src/component_analysis.o
+	$(CC) -O2 -o serelex ./src/main.o ./src/word.o ./src/definition.o ./src/interpret.o ./src/similarity.o ./src/karaulov.o ./src/component_analysis.o
 #serelex: main.o
 #	$(CC) -o serelex main.o
 
@@ -18,4 +22,4 @@ component_analysis.o: ./src/component_analysis.cpp ./src/component_analysis.h
 #definition.cpp: definition.h
 
 clean:
-	rm -f main.o word.o similarity.o definition.o interpret.o karaulov.o component_analysis.o
+	rm -f ./src/main.o ./src/word.o ./src/similarity.o ./src/definition.o ./src/interpret.o ./src/karaulov.o ./src/component_analysis.o

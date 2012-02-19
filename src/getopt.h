@@ -89,7 +89,7 @@ getopt(int argc, char * const argv[], const char *optstring)
          ++optind;
       if (opterr && *optstring != ':')
          (void)fprintf(stderr,
-                                      "unknown option -- %cn", optopt);
+                                      "unknown option -- %c\n", optopt);
       return (BADCH);
    }
 
@@ -113,7 +113,7 @@ getopt(int argc, char * const argv[], const char *optstring)
             return (BADARG);
          if (opterr)
             (void)fprintf(stderr,
-                                        "option requires an argument -- %cn",
+                                        "option requires an argument -- %c\n",
                                         optopt);
          return (BADCH);
       }

@@ -15,48 +15,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\serelex\component_analysis.cpp">
+    <ClCompile Include="..\src\component_analysis.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\serelex\definition.cpp">
+    <ClCompile Include="..\src\definition.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\serelex\interpret.cpp">
+    <ClCompile Include="..\src\interpret.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\serelex\karaulov.cpp">
+    <ClCompile Include="..\src\karaulov.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\serelex\main.cpp">
+    <ClCompile Include="..\src\main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\serelex\similarity.cpp">
+    <ClCompile Include="..\src\similarity.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\serelex\word.cpp">
+    <ClCompile Include="..\src\word.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\serelex\component_analysis.h">
+    <ClInclude Include="..\src\component_analysis.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\serelex\definition.h">
+    <ClInclude Include="..\src\definition.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\serelex\getopt.h">
+    <ClInclude Include="..\src\getopt.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\serelex\nmax.h">
+    <ClInclude Include="..\src\nmax.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\serelex\shareHeaders.h">
+    <ClInclude Include="..\src\shareHeaders.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\serelex\similarity.h">
+    <ClInclude Include="..\src\similarity.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\serelex\word.h">
+    <ClInclude Include="..\src\word.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
