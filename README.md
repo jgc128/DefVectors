@@ -48,8 +48,7 @@ T1, T2, T3 - parameters of Karaulov's semantic similarity measure, default T1 = 
 
 Files and Catalogs
 ------------------
-*bin* - contains binary excutable file:
-
+*bin* - contains binary excutable file:  
  * serelex_win32.exe - excutable file for 32-bit Windows
  * serelex_win64.exe - excutable file for 64-bit Windows
  * serelex_i686 - executable file for i686 Debian-based systems
@@ -57,8 +56,7 @@ Files and Catalogs
 
 *docs* - provides documentation in html format
 
-*sample-data* - contains sample source data:
-
+*sample-data* - contains sample source data:  
  * concepts.csv - a text file containing a set of input words (one word per line)
  * definitions.csv - a text file containing a set of definitions for words specified in the concepts.csv file
  * stoplist.csv - a text file containing stop words (one word per line)
