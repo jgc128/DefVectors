@@ -18,10 +18,9 @@ Licensed under [LGPLv3](http://www.gnu.org/licenses/lgpl.html).
 Options
 -------
 **-c** *file*
-
-Concepts file, default concepts.csv. A text file containing a set of input words (one word per line). The program will try to find semantic relations between these input words. For instance, if words 'crocodile, alligator, house, and building' were given as input the program will try to return pairs 'crocodile,alligator' and “house,building” among all possible combinations. 
+Concepts file, default concepts.csv. A text file containing a set of input words (one word per line). The program will try to find semantic relations between these input words. For instance, if words 'crocodile, alligator, house, and building' were given as input the program will try to return pairs 'crocodile,alligator' and 'house,building' among all possible combinations. 
 **-d** *file*
-Definitions file, default definitions.csv. A text file containing a set of definitions for words specified in the concepts.csv file. If this file contains definitions for more words that given in concepts.csv the program will skip the words which do not appear in the concepts.csv. The sample-data directory contains files with "definitions" derived from the introduction of Wikipedia articles. Other texts may be used as definitions (traditional dictionary glosses, WordNet, etc.) if provided in the same format.  
+Definitions file, default definitions.csv. A text file containing a set of definitions for words specified in the concepts.csv file. If this file contains definitions for more words that given in concepts.csv the program will skip the words which do not appear in the concepts.csv. The sample-data directory contains files with "definitions" derived from the introduction of Wikipedia articles. Other texts may be used as definitions (traditional dictionary glosses, WordNet, etc.) if provided in the same format.
 **-s** *file*
 Stop-words file, default stoplist.csv. A text file containing stop words (one word per line). Words from this list will not be used by a similarity measure. All occurrences of these words in definitons.csv will be removed. 
 **-o** *file*
