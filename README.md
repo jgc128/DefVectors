@@ -17,50 +17,34 @@ Licensed under [LGPLv3](http://www.gnu.org/licenses/lgpl.html).
 
 Options
 -------
-**-c** *file*
-
+**-c** *file*  
 Concepts file, default concepts.csv. A text file containing a set of input words (one word per line). The program will try to find semantic relations between these input words. For instance, if words 'crocodile, alligator, house, and building' were given as input the program will try to return pairs 'crocodile,alligator' and 'house,building' among all possible combinations.
 
-
-**-d** *file*
-
+**-d** *file*  
 Definitions file, default definitions.csv. A text file containing a set of definitions for words specified in the concepts.csv file. If this file contains definitions for more words that given in concepts.csv the program will skip the words which do not appear in the concepts.csv. The sample-data directory contains files with "definitions" derived from the introduction of Wikipedia articles. Other texts may be used as definitions (traditional dictionary glosses, WordNet, etc.) if provided in the same format.
 
-
-**-s** *file*
-
+**-s** *file*  
 Stop-words file, default stoplist.csv. A text file containing stop words (one word per line). Words from this list will not be used by a similarity measure. All occurrences of these words in definitons.csv will be removed.
 
-
-**-o** *file*
-
+**-o** *file*  
 Output file, default result.csv. A text file containing set of found semantic relations between words specified in the file concepts.csv. Each line of this file contains a pair of semantically related words, according to the specified method.
 
-
-**-S** *o|c|k*
-
-Similarity method, default o. Semantic similarity measure used for relation extraction. 
- o - Gloss overlap measure equal to number of common words in the definitions of two words.
- c - Cosine between bag-of-word vectors build from definitions of respective of two words
+**-S** *o|c|k*  
+Similarity method, default o. Semantic similarity measure used for relation extraction.  
+ o - Gloss overlap measure equal to number of common words in the definitions of two words.  
+ c - Cosine between bag-of-word vectors build from definitions of respective of two words  
  k - Karaulov's semantic similarity measure. 
  
- 
-**-M** *1|2*
-
-Component analysis method, default knn. An algorithm used to derive semantic relations from pairwise similarity scores between the words. 
- 1 - knn. Standard nearest-neighbor algorithm (KNN). Here K most similar words are related to a target word. 
+**-M** *1|2*  
+Component analysis method, default knn. An algorithm used to derive semantic relations from pairwise similarity scores between the words.  
+ 1 - knn. Standard nearest-neighbor algorithm (KNN). Here K most similar words are related to a target word.  
  2 - mknn. Mutual nearest-neighbor algorithm (MKNN). Here K mutually most similar words are related to a target word.
- 
 
-**-K** *NUM*
-
+**-K** *NUM*  
 Number of nearest-neighbors, default K = 2.
 
-
-**-T** *T1 T2 T3*
-
+**-T** *T1 T2 T3*  
 T1, T2, T3 - parameters of Karaulov's semantic similarity measure, default T1 = 2, T1 = 1, T3 = 6.
-
 
 Files and Catalogs
 ------------------
@@ -87,7 +71,7 @@ Files and Catalogs
 
 Build
 -----
-To build under Windows, use MS Visual Studio 2010 project in *windows* folder. To select configuration - x32 or x64 - use select list on tools panel
+To build under Windows, use MS Visual Studio 2010 project in *windows* folder. To select configuration - x32 or x64 - use select list on tools panel.  
 To build under *nix use command `make`. To build on amd64 use command `make ARCH=-m64`
 
 	
