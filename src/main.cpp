@@ -56,6 +56,7 @@ extern int optind;
 
 using namespace std;
 
+// Print the definitions
 void print_deflist(vector<Definition*>* defList){
 	bool print_features = true;
 	vector<Definition*>::iterator def_it;
