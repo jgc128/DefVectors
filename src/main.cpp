@@ -39,8 +39,8 @@ The tool is a cross-platform console application.
 Licensed under LGPLv3.
 */
 
-map<char*, int, POSCompare> POS_map;//Соответствие НазваниеPOS - Индекс
-//set<int> truePOS;//Множество индексов POS, которые учитываются в анализе
+map<char*, int, POSCompare> POS_map;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅPOS - пїЅпїЅпїЅпїЅпїЅпїЅ
+//set<int> truePOS;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ POS, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 set<unsigned long long> karaulov_set;
 
 map < pair <char *, int >, unsigned long long, WordCompare> allWords;
@@ -55,6 +55,22 @@ bool checkFiles();
 extern int optind;
 
 using namespace std;
+
+void print_deflist(vector<Definition*>* defList){
+	bool print_features = true;
+	vector<Definition*>::iterator def_it;
+	map<unsigned long long, int>::iterator words_it;
+	for(def_it=defList->begin(); def_it !=defList->end(); def_it++){
+		printf("%s", (*def_it)->name);
+		if(print_features){
+			printf(" (%d):", (*def_it)->mappedWords.size());
+			//for(words_it=(*def_it)->mappedWords.begin(); words_it !=(*def_it)->mappedWords.end(); words_it++){
+			//	printf("(%d,%d) ", (*words_it).first, (*words_it).second);
+			//}
+		}
+		printf("\n");
+	}
+}
 
 int main(int argc, char* argv[])
 {
@@ -71,7 +87,7 @@ int main(int argc, char* argv[])
 	ComponentAnalysis::RunComponentAnalysis = ComponentAnalysis::NewComponentAnalysisKNN;
 	
 
-	//Анализ командной строки
+	//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	if (argsAnalis(argc, argv))
 	{
 		return 1;
@@ -82,14 +98,15 @@ int main(int argc, char* argv[])
 	
 	printMessage("Started...\n");
 
-	//Инициализация
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	init_POS();
 	//init_truePOS();
 
-	//Ввод данных
+	//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	std::vector<Definition*>* definitions = readData(globalArgs.conceptsFile, globalArgs.definitionsFile, globalArgs.stopWordsFile); // readData("concepts.csv","definitions.csv","stoplist.csv")
-	
-	initKaraulov( definitions, globalArgs.T3 );
+	//print_deflist(definitions);
+
+	initKaraulov(definitions, globalArgs.T3);
 
 	list < pair < char*,char* > > result;
 	
@@ -142,7 +159,7 @@ void helpMessage(char * fileName)
 "c - concepts file, default concepts.csv. "
 "A text file containing a set of input words (one word per line). "
 "The program will try to find semantic relations between these input words. "
-"For instance, if words “crocodile, alligator, house, and building” were given as input the program will try to return pairs “crocodile,alligator” and “house,building” among all possible combinations.\n");
+"For instance, if words пїЅcrocodile, alligator, house, and buildingпїЅ were given as input the program will try to return pairs пїЅcrocodile,alligatorпїЅ and пїЅhouse,buildingпїЅ among all possible combinations.\n");
 	printf("\n"
 "d - definitions file, default definitions.csv. "
 "A text file containing a set of definitions for words specified in the concepts.csv file. "
@@ -160,9 +177,9 @@ void helpMessage(char * fileName)
 "Each line of this file contains a pair of semantically related words, according to the specified method.\n");
 	printf("\n"
 "S - similarity method, default o. Semantic similarity measure used for relation extraction.\n" 
-"\to – Gloss overlap measure equal to number of common words in the definitions of two words.\n"
-"\tc – Cosine between bag-of-word vectors build from definitions of respective of two words\n"
-"\tk – Karaulov's semantic similarity measure.\n");
+"\to пїЅ Gloss overlap measure equal to number of common words in the definitions of two words.\n"
+"\tc пїЅ Cosine between bag-of-word vectors build from definitions of respective of two words\n"
+"\tk пїЅ Karaulov's semantic similarity measure.\n");
 	printf("\n"
 "M - component analysis method, default knn. An algorithm used to derive semantic relations from pairwise similarity scores between the words.\n"
 "\t1 - knn. Standard nearest-neighbor algorithm (KNN). Here K most similar words are related to a target word.\n"
@@ -170,7 +187,7 @@ void helpMessage(char * fileName)
 	printf("\n"
 "K - number of nearest-neighbors, default K = 2\n");
 	printf("\n"
-"T1, T2, T3 – parameters of Karaulov's semantic similarity measure, default T1 = 2, T1 = 1, T3 = 6.\n");
+"T1, T2, T3 пїЅ parameters of Karaulov's semantic similarity measure, default T1 = 2, T1 = 1, T3 = 6.\n");
 	printf("\n\nAuthors:\n");
 	printf("\tAdeykin Sergey  adeykin90@gmail.com\n");
 	printf("\tRomanov Alexey jgc128ra@gmail.com\n");
@@ -207,29 +224,29 @@ bool checkFiles()
 
 bool argsAnalis(int argc, char* argv[])
 {
-	//Параметры по умолчанию
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	int opt = 0;
 //	globalArgs.outputFile = "result.dat";
 
-	//Анализ
+	//пїЅпїЅпїЅпїЅпїЅпїЅ
 	opt = getopt( argc, argv, optString );
 	while( opt != -1 ) 
 	{
 		switch( opt ) 
 		{
-		case 'c'://файл концептов
+		case 'c'://пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			globalArgs.conceptsFile = optarg;
 			break;
-		case 'd'://Файл дефиниций
+		case 'd'://пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			globalArgs.definitionsFile = optarg;
 			break;
-		case 's'://Файл стоп-слов
+		case 's'://пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅ
 			globalArgs.stopWordsFile = optarg;
 			break;
-		case 'o'://Выходной файл
+		case 'o'://пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 			globalArgs.outputFile = optarg;
 			break;
-		case 'S'://Метод определения схожести
+		case 'S'://пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			switch(*optarg)
 			{
 			case 'o':
@@ -243,7 +260,7 @@ bool argsAnalis(int argc, char* argv[])
 				break;
 			}
 			break;
-		case 'M'://Алгоритм вычисления семантических отношений
+		case 'M'://пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			switch(*optarg)
 			{
 			case '1':
@@ -256,10 +273,10 @@ bool argsAnalis(int argc, char* argv[])
 				break;
 			}
 			break;
-		case 'K'://Количество отношений для каждого из слов
+		case 'K'://пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 			globalArgs.K = atoi(optarg);
 			break;
-		case 'T'://3 параметра для метода караулова
+		case 'T'://3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			if (optind + 1 < argc)
 			{
 				globalArgs.T1 = atoi( optarg );

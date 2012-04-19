@@ -17,16 +17,15 @@ Definition::Definition()
 
 }
 
-Definition::Definition(char *w, std::map<unsigned long long, int> &words)
-{
+Definition::Definition(char* w, std::map<unsigned long long, int> &words){
 	name = w;
 	mappedWords = words;
-	wordCount = words.size();
+	wordCount = mappedWords.size();
 }
 
 Definition::~Definition()
 {
-	
+
 }
 
 int Definition::Overlap(Definition &other, std::set<unsigned long long> &overlapDef)
@@ -64,6 +63,5 @@ int Definition::Frequency(unsigned long long &word)
 
 	return fnd == mappedWords.end() ? 0 : mappedWords[word];	
 }
-
 
 #endif

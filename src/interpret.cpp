@@ -28,6 +28,7 @@ extern map < pair <char *, int >, unsigned long long, WordCompare > allWords;
 
 list<char *>* readFileWords(char*);
 vector<Definition*>* readFileDefinitions(char*,list<char*>*,list<char*>*);
+vector<Definition*>* readFileDefinitionsEx(char*,list<char*>*,list<char*>*);
 
 unsigned long long getWordId(char * w, int pos)
 {
@@ -54,32 +55,24 @@ unsigned long long getWordId(pair <char *, int> p)
 	return s;
 }
 
+
 vector<Definition*>* readData(char* wordFileName, char* definitionFileName, char* stopWordsFileName)
 {
 	printMessage("Loading stop words...\n");
 	list<char *>* stopWords = readFileWords(stopWordsFileName);
-	printMessage("Stop word loaded from file %s\n", stopWordsFileName);
+	printMessage("Stop  word loaded from file %s\n", stopWordsFileName);
 
 	printMessage("Loading concepts...\n");
 	list<char *>* concepts = readFileWords(wordFileName);
 	printMessage("Concepts loaded from file %s\n", wordFileName);
 
 	printMessage("Loading definitions...\n");
-	vector<Definition*>* definitions = readFileDefinitions(definitionFileName, stopWords, concepts);    
+	vector<Definition*>* definitions = readFileDefinitionsEx(definitionFileName, stopWords, concepts);
 	printMessage("Definitions loaded from file %s\n", definitionFileName);
 
-	//delete stopWords;
-	//delete concepts;
+	//print_deflist(definitions);
 	
 	return definitions;
-	
-	//printf("Count=%i\n", definitions->size() );
-	//for(vector<Definition*>::iterator i = definitions->begin(); i != definitions->end(); i++)
-	//    printf("+");
-	
-//list<char*>::iterator i;
-//for(i = concepts->begin(); i != concepts->end(); i++ )
-//    printf("-%s\n", *i);
 }
 
 
@@ -227,6 +220,119 @@ vector<Definition*>* readFileDefinitions(char* fileName,
 	defList->resize(i);	
 
 	return defList; 
+}
+
+/**
+ * Performs parsing of a text file with definitions.
+ * Each line of the file should be in the following format:
+ * acacia; acacia#NN#acacia  is#VBZ#be  a#DT#a  genus#NN#genus  of#IN#of  shrubs#NNS#shrub
+ * The definitions are separated by newline.
+ * */
+vector<Definition*>* readFileDefinitionsEx(char* def_filename, list<char*>* stopwords, list<char*>* concepts){
+	// Initialize the definitions list
+	vector<Definition*>* defList = new vector<Definition*>(concepts->size());
+
+	// Read the whole definitions file into memory
+	FILE* def_file = fopen(def_filename, "r");
+	fseek(def_file, 0, SEEK_END);
+	long size = ftell(def_file);
+	rewind(def_file);
+	char* text = new char[size + 1];
+	size_t result = fread(text, 1, size, def_file);;
+	if (result != size)	{
+		if (ferror (def_file)) {
+			perror("Error reading file!");
+			exit(3);
+		}
+		else
+			size = result;
+	}
+	text[size] = '\0';
+
+	// Variables required for the parsing
+	char* ptr_current = text;
+	char* ptr_tokend;
+	char* ptr_conend;
+	char* ptr_concept;
+	char* ptr_surface;
+	char* ptr_lemma;
+	char* ptr_defend;
+	char* ptr_textend = text + size;
+	bool use_definition;
+	bool use_word;
+	int pos;
+	long def_count = 0;
+	vector<Definition*>::iterator def_it;
+	Definition* def;
+	map<unsigned long long, int>* defWords;
+
+	// Parse the file
+	do{
+		// Read the concept
+		if(*ptr_current == '\n') { ptr_current++; continue; } // Go to the beginning of the definition
+		ptr_conend = strchr(ptr_current, ';');
+		if( ptr_conend == NULL ) break; // End of the document
+		*ptr_conend = '\0';
+		ptr_concept = ptr_current;
+		ptr_current = ptr_conend + 1;
+
+		use_definition = find_if(concepts->begin(), concepts->end(), bind2nd(ptr_fun(equeStr), ptr_concept)) != concepts->end();
+		if(use_definition)
+		{
+			// If definition exist then use it, otherwise add a new entry
+			int was = 0;
+			def_it = find_if(defList->begin(), defList->end(), definitions_equal(new Definition(ptr_concept, *(new map<unsigned long long, int>()))));
+			if(def_it != defList->end()) { defWords = &((*def_it)->mappedWords); was = (*def_it)->mappedWords.size();} // Definition already exist in the list
+			else { defWords = new map<unsigned long long, int>(); }
+
+			ptr_defend = strchr(ptr_current, '\n');
+			*ptr_defend = '\0';
+			do{
+				// Get boundaries of the surface, pos, and lemma
+				if(*ptr_current == ' ') {  ptr_current++; continue; } // Skip leading whitespaces
+				if((ptr_surface = strchr(ptr_current, '#')) == NULL) break; // End of the definition
+				if((ptr_lemma = strchr(ptr_surface + 1, '#')) == NULL) break; // Wrong format
+				if((ptr_tokend = strchr(ptr_lemma + 1, ' ')) == NULL) ptr_tokend = ptr_defend; // End of the definiton
+				*ptr_lemma = '\0';
+				*ptr_tokend = '\0';
+				pos = POS_map[ptr_surface+1];
+
+				// Add word if not a stopword
+				use_word = (pos != 0 && find_if(stopwords->begin(), stopwords->end(), bind2nd(ptr_fun(equeStr), ptr_lemma+1)) == stopwords->end());
+				if(use_word)
+				{
+					(*defWords)[getWordId(ptr_lemma+1, pos)]++;
+				}
+
+				// Move to the next word
+				ptr_current = ptr_tokend + 1;
+				if (ptr_tokend == ptr_defend) break;
+			} while(true);
+			ptr_current = ptr_defend + 1;
+
+			if(defWords->size() > 0)
+			{
+				if(def_it != defList->end())
+				{
+					printf("%s/%s: %d > %d\n", ptr_concept, (*def_it)->name, was, defWords->size());
+					*def_it = new Definition(ptr_concept, *defWords);
+				}
+				else
+				{
+					(*defList)[def_count] = new Definition(ptr_concept, *defWords);
+					def_count++;
+				}
+			}
+		}
+		else
+		{
+			ptr_current = strchr(ptr_current, '\n');
+		}
+	}while(ptr_current < ptr_textend);
+
+	defList->resize(def_count);
+	printf("Definitions of %d(%d) concepts were loaded.\n", def_count, concepts->size());
+	return defList;
 }
 
 bool writeResults(list < pair < char*, char* > > *data, const char * fileName, bool rewrite)
