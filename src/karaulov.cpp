@@ -10,23 +10,15 @@
 using namespace std;
 
 extern set<unsigned long long> karaulov_set;
+extern map < unsigned long long, int> totalWordInDefinitions;
 
-//initKaraulov(char* newName, std::map<Word *, int, WordCompare> &words)
-void initKaraulov(vector<Definition*>* definitions, int count)
+//initKaraulov(char* newName, std::map<Word *, int, WordCompare> &words) // vector<Definition*>* definitions, 
+void initKaraulov(int count) 
 {
-	static map<unsigned long long, int> totalWords;
-	vector<Definition*>::iterator it;
+//	static map<unsigned long long, int> totalWords;
+	
 	map<unsigned long long, int>::iterator jt;
-
-	for (it = definitions->begin(); it != definitions->end(); it++)
-	{
-		for(jt = (*it)->mappedWords.begin(); jt != (*it)->mappedWords.end(); jt++)
-		{
-			totalWords[(*jt).first]++;
-		}
-	}
-
-	for(jt = totalWords.begin(); jt != totalWords.end(); jt++)
+	for(jt = totalWordInDefinitions.begin(); jt != totalWordInDefinitions.end(); jt++)
 	{
 		if ((*jt).second <= count)
 		{

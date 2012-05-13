@@ -45,8 +45,10 @@ set<unsigned long long> karaulov_set;
 
 map < pair <char *, int >, unsigned long long, WordCompare> allWords;
 
+map < unsigned long long, int> totalWordInDefinitions;
+
 GlobalArgs globalArgs;
-static const char *optString = "p:c:d:s:o:S:M:K:T:h?:V";
+static const char *optString = "tp:c:d:s:o:S:M:K:T:h?V";
 
 bool argsAnalis(int, char**);
 void helpMessage(char * fileName);
@@ -84,6 +86,7 @@ int main(int argc, char* argv[])
 	globalArgs.T1 = 2;
 	globalArgs.T2 = 1;
 	globalArgs.T3 = 6;
+	globalArgs.useTFIDF = false;
 
 	Definition::similar = Overlap;
 	ComponentAnalysis::RunComponentAnalysis = ComponentAnalysis::NewComponentAnalysisKNN;
@@ -112,9 +115,15 @@ int main(int argc, char* argv[])
 			globalArgs.posFile); // readData("concepts.csv","definitions.csv","stoplist.csv")
 
 	//print_deflist(definitions);
-
-	initKaraulov(definitions, globalArgs.T3);
-
+	if (globalArgs.useTFIDF || Definition::similar == Karaulov)
+	{
+		initWordsTotal(definitions);
+		if (Definition::similar == Karaulov)
+			initKaraulov(globalArgs.T3);
+		if (globalArgs.useTFIDF)
+			calculateTFIDF(definitions);
+	}
+	
 	list < pair < char*,char* > > result;
 	
 	printMessage("Calculated similarity... "); 
@@ -161,7 +170,12 @@ void printMessage(char * format, ...)
 
 void helpMessage(char * fileName)
 {
-	printf("\nUsage: %s [-c <file>] [-d <file>] [-s <file>] [-o <file>] [-S o|c|k] [-M 1|2] [-K <K>] [-T <T1> <T2> <T3>]\n", fileName);
+	printf("\nUsage: %s [-t] [-p <file>] [-c <file>] [-d <file>] [-s <file>] [-o <file>] [-S o|c|k] [-M 1|2] [-K <K>] [-T <T1> <T2> <T3>]\n", fileName);
+	printf("\n"
+"t - If set, TF*IDF metric used for word weight\n");
+	printf("\n"
+"p - POS file, default using default POS. "
+"A text file containing a set of POS.\n");
 	printf("\n"
 "c - concepts file, default concepts.csv. "
 "A text file containing a set of input words (one word per line). "
@@ -241,6 +255,9 @@ bool argsAnalis(int argc, char* argv[])
 	{
 		switch( opt ) 
 		{
+		case 't':
+			globalArgs.useTFIDF = true;
+			break;
 		case 'p':
 			globalArgs.posFile = optarg;
 			break;
