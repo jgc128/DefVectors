@@ -2,7 +2,7 @@
 #define KR_2011_HEADERS_H
 
 //============================================================
-// файл с общими протатипами функций и глобальными перпеменными
+// файл с общими прототипами функций и глобальными перпеменными
 //============================================================
 
 
@@ -14,8 +14,12 @@
 #include "word.h"
 #include "definition.h"
 
-void initKaraulov(std::vector<Definition*>* definitions, int count);
+void calculateTFIDF(std::vector<Definition*>* definitions);
+void initWordsTotal(std::vector<Definition*>* definitions);
+void initKaraulov(int count);
 void printMessage(char * format, ...);
+
+
 //Интерпретатор
 std::vector<Definition*>* readData(char*, char*, char*, char*);
 bool writeResults(std::list<std::pair <char*,char*> > *data, const char * fileName, bool rewrite = true);
@@ -41,6 +45,8 @@ struct GlobalArgs
 	/// Number words for each words in results
     unsigned int K;
     int T1, T2, T3;
+
+	bool useTFIDF;
 };
 
 #endif

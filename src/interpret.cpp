@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <set>
 #include <map>
@@ -25,6 +26,9 @@ extern map<char*, int, POSCompare> POS_map;
 extern set<int> truePOS;
 
 extern map < pair <char *, int >, unsigned long long, WordCompare > allWords;
+
+extern GlobalArgs globalArgs;
+extern map < unsigned long long, int> totalWordInDefinitions;
 
 list<char *>* readFileWords(char*);
 vector<Definition*>* readFileDefinitions(char*,list<char*>*,list<char*>*);
@@ -53,6 +57,41 @@ unsigned long long getWordId(pair <char *, int> p)
 	unsigned long long s = allWords.size();
 	allWords[p] = s;
 	return s;
+}
+
+void calculateTFIDF(vector<Definition*>* definitions)
+{
+	printMessage("Calculated TF*IDF...\n"); 
+	int defSize = definitions->size();
+
+	vector<Definition*>::iterator itDef;
+	map<unsigned long long, int>::iterator itWord;
+
+	float tfidf;
+	
+	for (itDef = definitions->begin(); itDef != definitions->end(); itDef++)
+	{
+		for(itWord = (*itDef)->mappedWords.begin(); itWord != (*itDef)->mappedWords.end(); itWord++)
+		{
+			tfidf = (((float)(*itWord).second) / (*itDef)->wordCount)*log(((float)defSize)/totalWordInDefinitions[(*itWord).first]);
+		//	printf("TF = %f, IDF = %f, TF*IDF= %f\n", ((float)(*itWord).second) / (*itDef)->wordCount, ((float)defSize)/totalWordInDefinitions[(*itWord).first], tfidf);
+			(*itWord).second = (int)(tfidf*0x0FFFFFFF);
+		}
+	}
+}
+
+void initWordsTotal(vector<Definition*>* definitions)
+{
+	vector<Definition*>::iterator it;
+	map<unsigned long long, int>::iterator jt;
+
+	for (it = definitions->begin(); it != definitions->end(); it++)
+	{
+		for(jt = (*it)->mappedWords.begin(); jt != (*it)->mappedWords.end(); jt++)
+		{
+			totalWordInDefinitions[(*jt).first]++;
+		}
+	}
 }
 
 
