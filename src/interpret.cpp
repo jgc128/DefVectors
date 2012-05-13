@@ -56,8 +56,35 @@ unsigned long long getWordId(pair <char *, int> p)
 }
 
 
-vector<Definition*>* readData(char* wordFileName, char* definitionFileName, char* stopWordsFileName)
+vector<Definition*>* readData(char* wordFileName, char* definitionFileName, char* stopWordsFileName, char * posFileName = 0)
 {
+	if (posFileName)
+	{
+		bool firstPos = true;
+		printMessage("Loading POS...\n");
+		list<char *>* POSs = readFileWords(posFileName);
+
+		printMessage("Using POS from file %s: ", posFileName);
+		list < char * >::iterator it;
+		for (it = POSs->begin(); it != POSs->end(); it++)
+		{
+			POS_add(*it);
+			if (firstPos)
+			{
+				printf("%s", *it);
+				firstPos = false;
+			}
+			else
+				printf(", %s", *it);
+		}
+		printf("\n");
+	}
+	else
+	{
+		printMessage("Using default POS...\n");
+		init_POS();
+	}
+
 	printMessage("Loading stop words...\n");
 	list<char *>* stopWords = readFileWords(stopWordsFileName);
 	printMessage("Stop  word loaded from file %s\n", stopWordsFileName);

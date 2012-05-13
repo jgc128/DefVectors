@@ -46,7 +46,7 @@ set<unsigned long long> karaulov_set;
 map < pair <char *, int >, unsigned long long, WordCompare> allWords;
 
 GlobalArgs globalArgs;
-static const char *optString = "c:d:s:o:S:M:K:T:h?:V";
+static const char *optString = "p:c:d:s:o:S:M:K:T:h?:V";
 
 bool argsAnalis(int, char**);
 void helpMessage(char * fileName);
@@ -75,6 +75,7 @@ void print_deflist(vector<Definition*>* defList){
 
 int main(int argc, char* argv[])
 {
+	globalArgs.posFile = 0;
 	globalArgs.conceptsFile = "concepts.csv";
 	globalArgs.definitionsFile = "definitions.csv";
 	globalArgs.stopWordsFile = "stoplist.csv";
@@ -100,11 +101,16 @@ int main(int argc, char* argv[])
 	printMessage("Started...\n");
 
 	//�������������
-	init_POS();
+	
 	//init_truePOS();
 
 	//���� ������
-	std::vector<Definition*>* definitions = readData(globalArgs.conceptsFile, globalArgs.definitionsFile, globalArgs.stopWordsFile); // readData("concepts.csv","definitions.csv","stoplist.csv")
+	std::vector<Definition*>* definitions = readData(
+			globalArgs.conceptsFile, 
+			globalArgs.definitionsFile, 
+			globalArgs.stopWordsFile, 
+			globalArgs.posFile); // readData("concepts.csv","definitions.csv","stoplist.csv")
+
 	//print_deflist(definitions);
 
 	initKaraulov(definitions, globalArgs.T3);
@@ -235,6 +241,9 @@ bool argsAnalis(int argc, char* argv[])
 	{
 		switch( opt ) 
 		{
+		case 'p':
+			globalArgs.posFile = optarg;
+			break;
 		case 'c'://���� ���������
 			globalArgs.conceptsFile = optarg;
 			break;

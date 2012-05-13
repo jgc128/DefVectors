@@ -17,7 +17,7 @@
 void initKaraulov(std::vector<Definition*>* definitions, int count);
 void printMessage(char * format, ...);
 //Интерпретатор
-std::vector<Definition*>* readData(char*, char*, char*);
+std::vector<Definition*>* readData(char*, char*, char*, char*);
 bool writeResults(std::list<std::pair <char*,char*> > *data, const char * fileName, bool rewrite = true);
 void createConceptsFromDefinitions(char * fileName, char * toFileName);
 
@@ -26,6 +26,8 @@ enum Method {KNN, mKNN};
 /// Represents common global variables
 struct GlobalArgs
 {
+	/// Name of POS file
+	char* posFile;
 	/// Name of the stop-words file
     char* stopWordsFile;
 	/// Name of the concepts file
