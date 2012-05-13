@@ -1,6 +1,7 @@
 windows/ipch
 windows/Debug
 windows/Release
+windows/Release 64
 windows/x64
 *.dll
 *.sdf
