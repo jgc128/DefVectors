@@ -67,6 +67,7 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 			else
 			{
 				sim =  Definition::similar( *D[i] , *D[j] );
+				//printf("%d,%d,%f\n", i, j, sim);
 				simL = sim * 10000000;
 				if (simL != 0)
 				{

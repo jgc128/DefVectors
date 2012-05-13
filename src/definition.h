@@ -12,27 +12,23 @@ struct Definition;
 /// Pointer to the necessary similarity func
 typedef double (* pSimilarity)(Definition&, Definition&);
 
-/// Represents of the definition
+/// Represents the definition
 struct Definition
 {
-	/*
-	char* name;
-	int wordCount;
-	std::map<Word *, int, WordCompare> mappedWords;	
-	*/
+	/// Concept name
 	char* name;
 	
-	/// count word in the definition
+	/// Number of words in the definition
 	int wordCount;
 
-	/// key - unique ID of word, value - absolute frequency of word
+	/// Words in the definition. Key - unique ID of word, value - absolute frequency of word
 	std::map<unsigned long long, int> mappedWords;
 
-	//Указатель на конкретный метод определения схожести дефиниций
-	//Установить при инициализации
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	static pSimilarity similar;
-
 	Definition();
+	Definition(char* w);
 	Definition(char * w, std::map<unsigned long long, int> &words);
 	~Definition();
 
@@ -58,6 +54,29 @@ struct Definition
  */	
 	int Frequency(unsigned long long &word);
 };
+
+struct definitions_equal
+{
+	explicit definitions_equal(Definition* d)
+	{
+		first_def = d;
+	}
+
+	bool operator()(const Definition* second_def) const
+    {
+		//printf("cmp ");
+		if(first_def && second_def && first_def->name && second_def->name){
+			return strcmp(first_def->name, second_def->name) == 0;
+		}
+		else{
+			//printf("null ");
+			return false;
+		}
+    }
+private:
+	Definition* first_def;
+};
+
 
 
 #endif

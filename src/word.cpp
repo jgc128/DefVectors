@@ -29,7 +29,7 @@ void init_POS()
     POS_add("VV");
     POS_add("VVN");
     POS_add("VVP");
-    POS_add("JJJ");
+    POS_add("JJ");
     POS_add("NN");
     POS_add("NNS");
     POS_add("NP");
