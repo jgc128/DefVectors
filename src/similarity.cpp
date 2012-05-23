@@ -46,11 +46,16 @@ double Cos(Definition &def1, Definition &def2)
 	std::set<unsigned long long> words;
 	std::set<unsigned long long>::iterator itrSet;
 
-	int numerator = 0;
-	int denominatorA = 0;
-	int denominatorB = 0;
+	double numerator = 0.0;
+	double denominatorA = 0.0;
+	double denominatorB = 0.0;
 
-	int a,b;
+	int numeratorInt = 0;
+	int denominatorAInt = 0;
+	int denominatorBInt = 0;
+
+	double a,b;
+	int aInt,bInt;
 
 	for(itr = def1.mappedWords.begin(); itr != def1.mappedWords.end(); ++itr)
 		words.insert(itr->first);
@@ -59,20 +64,40 @@ double Cos(Definition &def1, Definition &def2)
 
 	unsigned long long wrd;
 
-	for(itrSet = words.begin(); itrSet != words.end(); ++itrSet)
+	if (globalArgs.useTFIDF)
 	{
-		wrd = *itrSet;
+		for(itrSet = words.begin(); itrSet != words.end(); ++itrSet)
+		{
+			wrd = *itrSet;
 
-		a = def1.Frequency(wrd);
-		b = def2.Frequency(wrd);
+			a = ((double)def1.Frequency(wrd))/0x0FFFFFF;
+			b = ((double)def2.Frequency(wrd))/0x0FFFFFF;
 
-		numerator += a*b;
-		denominatorA += a*a;
-		denominatorB += b*b;
-	}
+			numerator += a*b;
+			denominatorA += a*a;
+			denominatorB += b*b;
+		}
 	
-	double denominator = sqrt((double)denominatorA) *  sqrt((double)denominatorB);
-	return numerator / denominator;
+		double denominator = sqrt((double)denominatorA) *  sqrt((double)denominatorB);
+		return numerator / denominator;
+	}
+	else
+	{
+		for(itrSet = words.begin(); itrSet != words.end(); ++itrSet)
+		{
+			wrd = *itrSet;
+
+			aInt = def1.Frequency(wrd);
+			bInt = def2.Frequency(wrd);
+
+			numeratorInt += aInt*bInt;
+			denominatorAInt += aInt*aInt;
+			denominatorBInt += bInt*bInt;
+		}
+	
+		double denominator = sqrt((double)denominatorAInt) *  sqrt((double)denominatorBInt);
+		return numeratorInt / denominator;
+	}
 }
 
 double Karaulov(Definition &def1, Definition &def2)

@@ -67,7 +67,9 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 			else
 			{
 				sim =  Definition::similar( *D[i] , *D[j] );
-				//printf("%d,%d,%f\n", i, j, sim);
+			//	if (abs(sim) >= 0.001)
+			//		printf("%d,%d,%f\n", i, j, sim);
+
 				simL = sim * 10000000;
 				if (simL != 0)
 				{
@@ -94,7 +96,7 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 
 }
 
-list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisKNN(std::vector<Definition*> &D, list < pair < char*, char* > > &R)
+void ComponentAnalysis::NewComponentAnalysisKNN(std::vector<Definition*> &D, list < pair < unsigned long, pair< char*, char*> > > &R)
 {
 	int i,j;
 	size_t mi, mj;
@@ -116,15 +118,14 @@ list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisKNN(std::v
 		mj = NewKNN[i].elements.size();
 		for( j = 0; j < mj; ++j )
 		{
-			R.push_back( make_pair( D[ i ]->name, D[ NewKNN[i].elements[j].first ]->name ) );
+			R.push_back( make_pair( NewKNN[i].elements[j].second, make_pair( D[ i ]->name, D[ NewKNN[i].elements[j].first ]->name ) ) );
 		}
 	}
 
-	return R;
 }
 
 
-list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisMutualKNN(std::vector<Definition*> &D, list < pair < char*, char* > > &R)
+void ComponentAnalysis::NewComponentAnalysisMutualKNN(std::vector<Definition*> &D, list < pair < unsigned long, pair < char*, char* > > > &R)
 {
 	int word_i,word_j;
 	std::vector < pair < unsigned long long, unsigned long > > :: iterator result;
@@ -144,11 +145,10 @@ list < pair < char*, char* > > ComponentAnalysis::NewComponentAnalysisMutualKNN(
 				bind2nd( p_fi_equal(), word_i ) );
 
 			if( result != NewKNN[ NewKNN[word_i].elements[word_j].first ].elements.end() )
-				R.push_back( make_pair( D[ word_i ]->name, D[ NewKNN[word_i].elements[word_j].first ]->name ) );
+				R.push_back( make_pair(NewKNN[word_i].elements[word_j].second, make_pair( D[ word_i ]->name, D[ NewKNN[word_i].elements[word_j].first ]->name) ) );
 		}
 	}
 
-	return R;
 }
 
 #endif

@@ -22,7 +22,7 @@ void printMessage(char * format, ...);
 
 //Интерпретатор
 std::vector<Definition*>* readData(char*, char*, char*, char*);
-bool writeResults(std::list<std::pair <char*,char*> > *data, const char * fileName, bool rewrite = true);
+bool writeResults(std::list<std::pair <unsigned long, std::pair < char*,char* > > > *data, const char * fileName, bool rewrite = true);
 void createConceptsFromDefinitions(char * fileName, char * toFileName);
 
 enum Method {KNN, mKNN};
@@ -33,18 +33,18 @@ struct GlobalArgs
 	/// Name of POS file
 	char* posFile;
 	/// Name of the stop-words file
-    char* stopWordsFile;
+	char* stopWordsFile;
 	/// Name of the concepts file
-    char* conceptsFile;
+	char* conceptsFile;
 	/// Name of the definition file
-    char* definitionsFile;
+	char* definitionsFile;
 	/// Name of the output file
-    char* outputFile;
-    /// The method of choosen - KNN or Mutual KNN
-    Method method;
+	char* outputFile;
+	/// The method of choosen - KNN or Mutual KNN
+	Method method;
 	/// Number words for each words in results
-    unsigned int K;
-    int T1, T2, T3;
+	unsigned int K;
+	int T1, T2, T3;
 
 	bool useTFIDF;
 };
