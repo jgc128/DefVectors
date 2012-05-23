@@ -75,7 +75,7 @@ void calculateTFIDF(vector<Definition*>* definitions)
 		{
 			tfidf = (((float)(*itWord).second) / (*itDef)->wordCount)*log(((float)defSize)/totalWordInDefinitions[(*itWord).first]);
 		//	printf("TF = %f, IDF = %f, TF*IDF= %f\n", ((float)(*itWord).second) / (*itDef)->wordCount, ((float)defSize)/totalWordInDefinitions[(*itWord).first], tfidf);
-			(*itWord).second = (int)(tfidf*0x0FFFFFFF);
+			(*itWord).second = (int)(tfidf*0x0FFFFFF);
 		}
 	}
 }
