@@ -401,16 +401,24 @@ vector<Definition*>* readFileDefinitionsEx(char* def_filename, list<char*>* stop
 	return defList;
 }
 
-bool writeResults(list < pair < char*, char* > > *data, const char * fileName, bool rewrite)
+bool result_sort (pair < unsigned long, pair < char*, char* > > &first, pair < unsigned long, pair < char*, char* > > &second)
+{
+	return second.first < first.first;
+}
+
+
+bool writeResults(list < pair < unsigned long, pair < char*, char* > > > *data, const char * fileName, bool rewrite)
 {
 	FILE* f = fopen(fileName, rewrite ? "w" : "a");
 	if (!f)
 		return false;
 
-	list < pair < char*, char* > >::iterator it;
+	data->sort(result_sort);
+
+	list < pair < unsigned long, pair < char*, char* > > >::iterator it;
 	for (it = data->begin(); it != data->end(); it++)
 	{
-		fprintf(f, "%s;%s\n", (*it).first, (*it).second);
+		fprintf(f, "%s;%s;%f\n", (*it).second.first, (*it).second.second, (*it).first/10000000.0);
 	}
 	fclose(f);
 

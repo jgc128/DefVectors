@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 			calculateTFIDF(definitions);
 	}
 	
-	list < pair < char*,char* > > result;
+	list < pair < unsigned long, pair <  char*,char* > > > result;
 	
 	printMessage("Calculated similarity... "); 
 	

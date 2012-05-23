@@ -11,7 +11,7 @@
 
 using namespace std;
 
-typedef list<pair < char*,char* > > (* pComponentAnalysisMethod)(std::vector<Definition*> &D, std::list< pair < char*,char* > > &R);
+typedef void (* pComponentAnalysisMethod)(std::vector<Definition*> &D, std::list< pair < unsigned long, pair < char*,char* > > > &R);
 
 
 /// Function object for compare two string
@@ -63,14 +63,14 @@ public:
  * @param R output list with results
  * @return list with results
  */
-	static list < pair < char*, char* > > NewComponentAnalysisKNN(std::vector<Definition*> &D, std::list < pair < char*, char* > > &R);
+	static void NewComponentAnalysisKNN(std::vector<Definition*> &D, std::list < pair < unsigned long, pair< char*, char* > > > &R);
 /**
  * Returns results of component analysis with Mutual KNN
  * @param D vector with need definitions
  * @param R output list with results
  * @return list with results
  */
-	static list < pair < char*, char* > > NewComponentAnalysisMutualKNN(std::vector<Definition*> &D, std::list<pair< char*, char* > > &R);
+	static void NewComponentAnalysisMutualKNN(std::vector<Definition*> &D, std::list<pair< unsigned long, pair < char*, char* > > > &R);
 
 /// Pointer o need component analysis method	
 	static pComponentAnalysisMethod RunComponentAnalysis;
