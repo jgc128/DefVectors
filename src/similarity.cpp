@@ -64,7 +64,8 @@ double Cos(Definition &def1, Definition &def2)
 
 	unsigned long long wrd;
 
-	if (globalArgs.useTFIDF)
+	//if (globalArgs.normalizationType == TF_IDF || globalArgs.normalizationType == UnitLenght || globalArgs.normalizationType == LogEntropy)
+	if (globalArgs.normalizationType != None)
 	{
 		for(itrSet = words.begin(); itrSet != words.end(); ++itrSet)
 		{

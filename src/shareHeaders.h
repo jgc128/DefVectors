@@ -15,6 +15,8 @@
 #include "definition.h"
 
 void calculateTFIDF(std::vector<Definition*>* definitions);
+void normalizeUnitLength(std::vector<Definition*>* definitions);
+void normalizeLogEntripy(std::vector<Definition*>* definitions);
 void initWordsTotal(std::vector<Definition*>* definitions);
 void initKaraulov(int count);
 void printMessage(char * format, ...);
@@ -26,6 +28,14 @@ bool writeResults(std::list<std::pair <unsigned long, std::pair < char*,char* > 
 void createConceptsFromDefinitions(char * fileName, char * toFileName);
 
 enum Method {KNN, mKNN};
+
+enum NormalizationType
+{
+	None,
+	TF_IDF,
+	UnitLenght,
+	LogEntropy
+};
 
 /// Represents common global variables
 struct GlobalArgs
@@ -46,7 +56,8 @@ struct GlobalArgs
 	unsigned int K;
 	int T1, T2, T3;
 
-	bool useTFIDF;
+	// Type of the vectors normalization
+	NormalizationType normalizationType;
 };
 
 #endif

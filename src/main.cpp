@@ -48,7 +48,7 @@ map < pair <char *, int >, unsigned long long, WordCompare> allWords;
 map < unsigned long long, int> totalWordInDefinitions;
 
 GlobalArgs globalArgs;
-static const char *optString = "tp:c:d:s:o:S:M:K:T:h?V";
+static const char *optString = "W:p:c:d:s:o:S:M:K:T:h?V";
 
 bool argsAnalis(int, char**);
 void helpMessage(char * fileName);
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 	globalArgs.T1 = 2;
 	globalArgs.T2 = 1;
 	globalArgs.T3 = 6;
-	globalArgs.useTFIDF = false;
+	globalArgs.normalizationType = None;
 
 	Definition::similar = Overlap;
 	ComponentAnalysis::RunComponentAnalysis = ComponentAnalysis::NewComponentAnalysisKNN;
@@ -115,15 +115,21 @@ int main(int argc, char* argv[])
 			globalArgs.posFile); // readData("concepts.csv","definitions.csv","stoplist.csv")
 
 	//print_deflist(definitions);
-	if (globalArgs.useTFIDF || Definition::similar == Karaulov)
+	if (globalArgs.normalizationType == TF_IDF || globalArgs.normalizationType == LogEntropy ||  Definition::similar == Karaulov)
 	{
 		initWordsTotal(definitions);
+
 		if (Definition::similar == Karaulov)
 			initKaraulov(globalArgs.T3);
-		if (globalArgs.useTFIDF)
-			calculateTFIDF(definitions);
 	}
 	
+	if (globalArgs.normalizationType == TF_IDF)
+		calculateTFIDF(definitions);
+	else if(globalArgs.normalizationType == UnitLenght)
+		normalizeUnitLength(definitions);
+	else if(globalArgs.normalizationType == LogEntropy)
+		normalizeLogEntripy(definitions);
+
 	list < pair < unsigned long, pair <  char*,char* > > > result;
 	
 	printMessage("Calculated similarity... "); 
@@ -240,6 +246,7 @@ bool checkFiles()
 			checkFile(globalArgs.conceptsFile) && 
 			checkFile(globalArgs.definitionsFile) && 
 			checkFile(globalArgs.stopWordsFile) && 
+			//(globalArgs.posFile != 0 && checkFile(globalArgs.posFile)) && 
 			checkFile(globalArgs.outputFile, true);
 }
 
@@ -255,8 +262,19 @@ bool argsAnalis(int argc, char* argv[])
 	{
 		switch( opt ) 
 		{
-		case 't':
-			globalArgs.useTFIDF = true;
+		case 'W':
+			switch(*optarg)
+			{
+			case 't':
+				globalArgs.normalizationType = TF_IDF;
+				break;
+			case 'u':
+				globalArgs.normalizationType = UnitLenght;
+				break;
+			case 'e':
+				globalArgs.normalizationType = LogEntropy;
+				break;
+			}
 			break;
 		case 'p':
 			globalArgs.posFile = optarg;

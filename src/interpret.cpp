@@ -80,6 +80,104 @@ void calculateTFIDF(vector<Definition*>* definitions)
 	}
 }
 
+/// Normalize vectors with Unit Length: v = f / ||f||
+void normalizeUnitLength(vector<Definition*>* definitions)
+{
+	printMessage("Normalizing vectors using Unit Length...\n"); 
+
+	vector<Definition*>::iterator itDef;
+	map<unsigned long long, int>::iterator itWord;
+
+	unsigned long long length;
+	double inv_length;
+	double doubleValue;
+	unsigned long long word;
+	int freq;
+
+	for (itDef = definitions->begin(); itDef != definitions->end(); itDef++)
+	{
+		// Calculate length of the vector
+		length = 0;
+		inv_length = 0;
+		for(itWord = (*itDef)->mappedWords.begin(); itWord != (*itDef)->mappedWords.end(); itWord++)
+		{
+			word = (*itWord).first;
+			freq = (*itDef)->Frequency( word );
+
+			length += freq*freq;
+		}
+		inv_length = 1.0 / sqrt((double)length);
+
+		for(itWord = (*itDef)->mappedWords.begin(); itWord != (*itDef)->mappedWords.end(); itWord++)
+		{
+			doubleValue = ((double)(*itWord).second) * inv_length;
+			(*itWord).second = (int)(doubleValue*0x0FFFFFF);
+		}
+	}
+}
+
+/// Calulate Ge, it's need for Log-Entropy normalization
+void calculateGe(vector<Definition*>* definitions, map<unsigned long long, double>* ge)
+{
+	vector<Definition*>::iterator itDef;
+	map<unsigned long long, int>::iterator itWord;
+
+	double logn = 1.0 / log( (double)definitions->size() );
+	double sum;
+	double div1;
+	unsigned long long word;
+	unsigned long long freq;
+
+	for(itWord = totalWordInDefinitions.begin(); itWord != totalWordInDefinitions.end(); itWord++)
+	{
+		word = (*itWord).first;
+
+		(*ge)[word] = 1.0;
+		sum = 0.0;
+
+		for (itDef = definitions->begin(); itDef != definitions->end(); itDef++)
+		{
+			freq = (*itDef)->Frequency(word);
+			if(freq != 0)
+			{
+				div1 = freq / (double)totalWordInDefinitions[word];
+				sum += ( div1 * log(div1) );
+			}
+		}
+
+		(*ge)[word] += (logn * sum);
+	}
+}
+/// Normalize vectors with Log-Entripy
+void normalizeLogEntripy(vector<Definition*>* definitions)
+{
+	printMessage("Normalizing vectors using Log-Entropy...\n"); 
+
+	vector<Definition*>::iterator itDef;
+	map<unsigned long long, int>::iterator itWord;
+
+	map<unsigned long long, double> *ge = new map<unsigned long long, double>();
+
+	calculateGe(definitions, ge);
+
+	double doubleValue;
+	unsigned long long word;
+	int freq;
+
+	for (itDef = definitions->begin(); itDef != definitions->end(); itDef++)
+	{
+		for(itWord = (*itDef)->mappedWords.begin(); itWord != (*itDef)->mappedWords.end(); itWord++)
+		{
+			word = (*itWord).first;
+			freq = (*itDef)->Frequency( word );
+
+			doubleValue = log( freq + 1.0 ) * (*ge)[word];
+
+			(*itWord).second = (int)(doubleValue*0x0FFFFFF);
+		}
+	}
+}
+
 void initWordsTotal(vector<Definition*>* definitions)
 {
 	vector<Definition*>::iterator it;
@@ -93,7 +191,6 @@ void initWordsTotal(vector<Definition*>* definitions)
 		}
 	}
 }
-
 
 vector<Definition*>* readData(char* wordFileName, char* definitionFileName, char* stopWordsFileName, char * posFileName = 0)
 {
@@ -397,7 +494,7 @@ vector<Definition*>* readFileDefinitionsEx(char* def_filename, list<char*>* stop
 	}while(ptr_current < ptr_textend);
 
 	defList->resize(def_count);
-	printf("Definitions of %d(%d) concepts were loaded.\n", def_count, concepts->size());
+	//printf("Definitions of %d(%d) concepts were loaded.\n", def_count, concepts->size());
 	return defList;
 }
 
