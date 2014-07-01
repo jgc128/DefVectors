@@ -73,8 +73,8 @@ void ComponentAnalysis::PrepareComponentAnalysis( std::vector<Definition*> &D )
 				simL = sim * 10000000;
 				if (simL != 0)
 				{
-					NewKNN[i].add( make_pair< unsigned long long, unsigned long > (j, simL) );
-					NewKNN[j].add( make_pair< unsigned long long, unsigned long > (i, simL) );
+					NewKNN[i].add( make_pair(j, simL) );
+					NewKNN[j].add( make_pair(i, simL) );
 				}
 			}
 
